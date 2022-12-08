@@ -113,8 +113,8 @@ typedef struct L7OF
 } L7OF;
 
 //Declarations des prototypes des fonctions de la machine abstraite
-void lireDir(L7OF *fichier,int i,BUFFER *buf); //lecture directe du contenu de fichier à la position i dans le buf
-void ecrireDir(L7OF *fichier,int i,Tbloc *buf); //ecriture directe du contenu de buf dans le fichier à la position i
+void lireDir(L7OF *fichier, int i, Tbloc *buf) ;//lecture directe du contenu de fichier à la position i dans le buf
+void ecrireDir(L7OF *fichier, int i, Tbloc *buf); //ecriture directe du contenu de buf dans le fichier à la position i
 int entete(L7OF *fichier,int num); //retourner la cracterstique num dans val
 void affEntete(L7OF *fichier, int i, int val);
 int allocBloc(L7OF *fichier); //allocations d'un nouveau bloc
