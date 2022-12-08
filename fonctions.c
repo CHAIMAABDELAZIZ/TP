@@ -124,7 +124,7 @@ void RechDicho (char matricule[7], caseIndexPrimaire *Case, int taille, int *tro
 
 }
 
-void chargementInitial(char *nomf, int N, L7OF *fich)
+void chargementInitial(char *nomf, int N, L7OF *fich) //Chargement initial (table d'index non verifiee
 {
     Tenreg Ens;
     BUFFER buf;
@@ -140,19 +140,24 @@ void chargementInitial(char *nomf, int N, L7OF *fich)
             insererIndex(val, fich->indexPrimaire->tab, k);
             j++;
         } else {
-            buf.NB=j;
-            buf.suivant=entete(fich, 2) + 1;
+            buf.NB=b;
+            
+            i1 = allocBloc(fich);
+            buf.suivant=i1;
             ecrireDir(fich, i, &buf);
-            i = allocBloc(fich);
+            i=i1;
             lireDir(fich, i,&buf);
             buf.tab[0]=Ens;
             j=1;
         }
     }
     buf.NB=j;
+    buf.suivant=-1;
     ecrireDir(fich,i,&buf);
     affEntete(fich,1,1);
+    affEntete(fich,2,i);
     affEntete(fich,3,N);
+    fermer(fich); //sans la fermeture du fichier rien ne sera enregistré dans la MS
 }
 
 
@@ -164,7 +169,7 @@ Tenreg Demander_Info() {
     printf("\n");
     printf("Donnez le matricule de l'enseignant?\n");
     scanf(" %s",Ens.Matricule);
-
+/*
     RechDicho (Ens.Matricule, &Case, taille, &trouv, &k);
     if (trouv) {
         printf("L'enregistrement de l'enseignant existe déja!");
@@ -194,8 +199,12 @@ Tenreg Demander_Info() {
         scanf("%s",Ens.Etablissement_Universitaire);
 
     }
+    */
     return Ens;
 }
+
+
+
 
 
 //  une insertion par decalage dans la table d'index
@@ -223,4 +232,59 @@ void insererIndex(caseIndexPrimaire valeur, caseIndexPrimaire *tab, int taille)
         tab[0] = (caseIndexPrimaire){.matricule = valeur.matricule, .Nbloc = valeur.Nbloc, .Deplacement = valeur.Deplacement};
 
     }
+}
+
+void insertion_Ens(L7OF *fich, char *nomf) { //Insertion sans table d'index
+    ouvrir(fich,nomf,'A');
+    int i = entete(fich, 2),
+    i1;
+    BUFFER buf;
+    lireDir(fich, i, &buf);
+
+
+    Tenreg E = Demander_Info();
+    if (buf.NB < b) {
+        buf.tab[buf.NB]=E;
+
+    } else {
+        i1 = allocBloc(fich);
+        buf.suivant=i1;
+        ecrireDir(fich,i,&buf);
+        i=i1;
+        lireDir(fich,i,&buf);
+        buf.tab[0]=E;
+        affEntete(fich,2,i1);
+    }
+    buf.NB++;
+    ecrireDir(fich,i,&buf);
+    affEntete(fich,3, entete(fich,3)+1);
+    fermer(fich);
+}
+
+
+
+
+void Affichage(L7OF *fichier, char *nomf) {
+    BUFFER buf;
+    ouvrir(fichier, nomf,'A');
+    int i = 1;
+    while (i!=-1) {
+        lireDir(fichier, i,&buf);
+        for (int k = 0; k < buf.NB; ++k) {
+            printf(" -%d: %s\n",k, buf.tab[k].Matricule); //si tu veux tester les autres champs enleve juste les (/**/)
+            /*
+            printf("%s\n",buf.tab[k].Nom);
+            printf("%s\n",buf.tab[k].Prenom);
+            printf("%s\n",buf.tab[k].Sexe);
+            printf("%s/%s/%s\n",buf.tab[k].Date_Naissance.jour,buf.tab[k].Date_Naissance.mois,buf.tab[k].Date_Naissance.annee);
+            printf("%s\n",buf.tab[k].Wilaya);
+            printf("%s\n",buf.tab[k].Groupe_Sanguin);
+            printf("%s\n",buf.tab[k].Grade);
+            printf("%s\n",buf.tab[k].Dernier_Diplome);
+            printf("%s/%s/%s\n",buf.tab[k].Date_Recrutement.jour,buf.tab[k].Date_Recrutement.mois,buf.tab[k].Date_Recrutement.annee);
+        */
+        }
+        i=buf.suivant;
+    }
+
 }
