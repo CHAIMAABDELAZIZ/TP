@@ -28,33 +28,41 @@ void ecrireDir(L7OF *fichier, int i, Tbloc *buf)
 //retourner la cracterstique num dans val
 
 
-int entete(L7OF *fichier, int i)
-{
-
-    if (i == 1)
+int entete(L7OF *fichier,int num) {
+    int val;
+    switch(num)
     {
-        return fichier->entete.tete;
+        case 1 : //Numero du premier bloc
+            val=fichier->entete->tete;
+            break;
+        case 2 : //Nombre d'enregistrement dans le bloc
+            val=fichier->entete->NBEnreg;
+            break;
+        case 3 : //Numero du dernier bloc
+            val=fichier->entete->queue;
+            break;
+        default :
+            return -1;
     }
-
-    else if (i == 2)
-    {
-        return fichier->entete.queue;
-    }
-
-    else
-        return -1;
+    return val;
 }
 
 //affecter à la caracteristique num la val
 
-void affEntete(L7OF *fichier, int i, int val)
-{
+void affEntete(L7OF *fichier,int num,int val) {
 
-    if (i == 1)
-        fichier->entete.tete = val;
-    else if (i == 2)
-        fichier->entete.queue = val;
-
+    switch(num)
+    {
+        case 1 : //Affectation du numero du premier bloc
+            fichier->entete->tete=val;
+            break;
+        case 2 : //Affectation du nombre d'enregistrement courants
+            fichier->entete->NBEnreg=val;
+            break;
+        case 3 : //Affectation du numero du dernier bloc
+            fichier->entete->queue=val;
+            break;
+    }
 }
 
 
@@ -67,8 +75,7 @@ int allocBloc(L7OF *fichier)
     if (fichier->f != NULL) //existe deja
     {
 
-        buf.NB = 0;
-        buf.suivant = -1;
+       //pour les buffers ça sert à rien d'affecter buf.suiv à -1 et buf.nb à 0 il change pas faut le faire en dehors de la fonction 
 
         affEntete(fichier, 2, entete(fichier, 2) + 1);
         ecrireDir(fichier, entete(fichier, 2), &buf);
