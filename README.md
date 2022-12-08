@@ -11,12 +11,12 @@ int main() {
     BUFFER buf;
     L7OF F;
     printf("Chargement Initial (9enreg) avec nbr d'enreg par bloc = 4");
-     chargementInitial(&F,"heyyy.bin",9);
+     chargementInitial(&F,"Fichier.bin",9);
     printf("\n");
-     Affichage(&F,"heyyy.bin");
-    insertion_Ens(&F,"heyyy.bin");
+     Affichage(&F,"Fichier.bin");
+    insertion_Ens(&F,"Fichier.bin");
     printf("Apres insertion d'un enregistrement avec mat=0000000 (inserion à la fin du fichier)");
 
-    Affichage(&F,"heyyy.bin");
+    Affichage(&F,"Fichier.bin");
 
 }
