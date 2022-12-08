@@ -52,7 +52,7 @@ typedef struct Entete {
 typedef Tbloc BUFFER;
 
 typedef struct caseIndexPrimaire {
-    char matricule;
+    char matricule[7];
     int Nbloc;
     int Deplacement;
 } caseIndexPrimaire ;
