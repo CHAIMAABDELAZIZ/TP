@@ -19,7 +19,7 @@ Tenreg enseignant();
 void RechDicho (char matricule[7], caseIndexPrimaire *Case, int taille, int *trouv, int *k);
 Tenreg Demander_Info();
 char **fichVersTab(char nomf[], int taiMot, int nbMot, int *cpt);
-void chargementInitial(L7OF *fich, char *nomf, int N) ;
+void chargementInitial(char *nomf, int N, L7OF *fich);
 void insererIndex(caseIndexPrimaire valeur, caseIndexPrimaire *tab, int taille);
 
 
