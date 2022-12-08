@@ -8,7 +8,7 @@
 
 void gen_Matricule (char matricule[7]) {
     strncpy(matricule,"",6);
-    sprintf(matricule,"%d",rand()%888888 + 111111);
+    sprintf(matricule,"%d",(rand()*100)%888888 + 111111); //car RAND_MAX=32767.
 }
 void gen_Nom (char nom[31]) {
     strncpy(nom, "",30);
