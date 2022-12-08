@@ -23,42 +23,35 @@ void ecrireDir(L7OF *fichier,int i,Tbloc *buf) {
 //retourner la cracterstique num dans val
 
 
-int entete(L7OF *fichier,int num) {
-    int val;
-    switch(num)
+int entete(L7OF *fichier, int i)
+{
+
+    if (i == 1)
     {
-        case 1 : //Numero du premier bloc
-            val=fichier->entete->tete;
-            break;
-        case 2 : //Nombre d'enregistrement dans le bloc
-            val=fichier->entete->NBEnreg;
-            break;
-        case 3 : //Numero du dernier bloc
-            val=fichier->entete->queue;
-            break;
-        default :
-            return -1;
+        return fichier->entete.tete;
     }
-    return val;
+
+    else if (i == 2)
+    {
+        return fichier->entete.queue;
+    }
+
+    else
+        return -1;
 }
 
 //affecter à la caracteristique num la val
 
-void affEntete(L7OF *fichier,int num,int val) {
+void affEntete(L7OF *fichier, int i, int val)
+{
 
-    switch(num)
-    {
-        case 1 : //Affectation du numero du premier bloc
-            fichier->entete->tete=val;
-            break;
-        case 2 : //Affectation du nombre d'enregistrement courants
-            fichier->entete->NBEnreg=val;
-            break;
-        case 3 : //Affectation du numero du dernier bloc
-            fichier->entete->queue=val;
-            break;
-    }
+    if (i == 1)
+        fichier->entete.tete = val;
+    else if (i == 2)
+        fichier->entete.queue = val;
+
 }
+
 
 //Allocation d'un nouveau bloc en MS
 
@@ -98,13 +91,13 @@ void fermer(L7OF *fichier)
 
 //ouvrir un fichier de type L7OF en mode voulu
 
-void ouvrir(L7OF *fichier, char nomF[10], char mode)
+void ouvrir(L7OF *fichier, char *nomF, char mode)
 {
 
     if ((mode == 'N') || (mode == 'n'))
     {
 
-        fichier->f = fopen(nomF[10], "wb+");
+        fichier->f = fopen(nomF, "wb+");
 
         affEntete(fichier, 1, 1);
         affEntete(fichier, 2, 1);
@@ -113,11 +106,9 @@ void ouvrir(L7OF *fichier, char nomF[10], char mode)
     {
         fichier->f = fopen(nomF, "rb+");
         if (fichier->f != NULL)
-            fread(&(fichier->entete), sizeof(Entete), 1, fichier->f);
+            fread(&(fichier->entete), sizeof(entete), 1, fichier->f);
     }
-    else {
-        return -1;
-        printf("non");
-    }
-
+    else
+        fichier->f = NULL;
 }
+
