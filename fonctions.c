@@ -124,13 +124,14 @@ void RechDicho (char matricule[7], caseIndexPrimaire *Case, int taille, int *tro
 
 }
 
-void chargementInitial(L7OF *fich, char nomf[10], int N) {
+void chargementInitial(char *nomf, int N, L7OF *fich)
+{
     Tenreg Ens;
     BUFFER buf;
     caseIndexPrimaire val;
     int i=1,
         j=0;
-    ouvrir(fich, nomf[10], 'N');
+    ouvrir(fich, nomf, 'N');
     for (int k = 0; k < N; ++k) {
         Ens = enseignant();
         if (j < b) {
@@ -220,5 +221,6 @@ void insererIndex(caseIndexPrimaire valeur, caseIndexPrimaire *tab, int taille)
     if (!stop)
     {
         tab[0] = (caseIndexPrimaire){.matricule = valeur.matricule, .Nbloc = valeur.Nbloc, .Deplacement = valeur.Deplacement};
+
     }
 }
