@@ -52,7 +52,7 @@ typedef struct Entete {
 typedef Tbloc BUFFER;
 
 typedef struct caseIndexPrimaire {
-    char matricule[7];
+    char matricule;
     int Nbloc;
     int Deplacement;
 } caseIndexPrimaire ;
@@ -106,7 +106,7 @@ typedef struct iBlocForce
 typedef struct L7OF
 {
     FILE *f;
-    Entete *entete;
+    Entete entete;
     Index *indexPrimaire;//index primaire
 
 
@@ -116,10 +116,9 @@ typedef struct L7OF
 void lireDir(L7OF *fichier,int i,BUFFER *buf); //lecture directe du contenu de fichier à la position i dans le buf
 void ecrireDir(L7OF *fichier,int i,Tbloc *buf); //ecriture directe du contenu de buf dans le fichier à la position i
 int entete(L7OF *fichier,int num); //retourner la cracterstique num dans val
-void affEntete(L7OF *fichier,int num,int val); //affecter à la caracteristique num la val
+void affEntete(L7OF *fichier, int i, int val);
 int allocBloc(L7OF *fichier); //allocations d'un nouveau bloc
 void fermer (L7OF *fichier); //fermer un fichier
-void ouvrir (L7OF *fichier,char nom_fich[30],const char mode); //ouvrir un fichier de type L7OF en mode voulu
-
+void ouvrir(L7OF *fichier, char *nomF, char mode);
 
 #endif //TP_SFSD_MACHINEABSTRAITE_H
