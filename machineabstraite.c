@@ -1,28 +1,25 @@
-
 #include "MachineAbstraite.h"
 #include <stdio.h>
 #include <stdlib.h>
 
 
+
+
 //lecture directe du contenu de fichier à la position i dans le buf
+void lireDir(L7OF *fichier,int i,BUFFER *buf)  {
 
-void lireDir(L7OF *fichier, int i, Tbloc *buf)
-{
-
-    fseek(fichier->f, (i - 1) * sizeof(Tbloc) + sizeof(entete), SEEK_SET);
-    fread(buf, sizeof(Tbloc), 1, fichier->f);
     rewind(fichier->f);
-}
+    fseek(fichier->f,sizeof(Entete)+i*sizeof(Tbloc),SEEK_SET); //se positionner à la place exacte
+    fread(buf,sizeof(Tbloc),1,fichier->f); //lecture
 
+}
 
 //ecriture directe du contenu de buf dans le fichier à la position i
 
-void ecrireDir(L7OF *fichier, int i, Tbloc *buf)
-{
-
-    fseek(fichier->f, (i - 1) * sizeof(Tbloc) + sizeof(entete), SEEK_SET);
-    fwrite(buf, sizeof(Tbloc), 1, fichier->f);
+void ecrireDir(L7OF *fichier,int i,Tbloc *buf) {
     rewind(fichier->f);
+    fseek(fichier->f,sizeof(Entete)+i*sizeof(Tbloc),SEEK_SET); //se positionner à la place exacte
+    fwrite(buf,sizeof(Tbloc),1,fichier->f); //ecriture
 }
 
 //retourner la cracterstique num dans val
@@ -65,7 +62,6 @@ void affEntete(L7OF *fichier,int num,int val) {
     }
 }
 
-
 //Allocation d'un nouveau bloc en MS
 
 int allocBloc(L7OF *fichier)
@@ -74,8 +70,6 @@ int allocBloc(L7OF *fichier)
     BUFFER buf;
     if (fichier->f != NULL) //existe deja
     {
-
-       //pour les buffers ça sert à rien d'affecter buf.suiv à -1 et buf.nb à 0 il change pas faut le faire en dehors de la fonction 
 
         affEntete(fichier, 2, entete(fichier, 2) + 1);
         ecrireDir(fichier, entete(fichier, 2), &buf);
@@ -88,39 +82,39 @@ int allocBloc(L7OF *fichier)
 
 //fermer un fichier
 
-void fermer(L7OF *fichier)
-{
-
-    if (fichier != NULL)
-    {
-        rewind(fichier->f);
-        fwrite(&(fichier->entete), sizeof(Entete), 1, fichier->f);
-        rewind(fichier->f);
-        fclose(fichier->f);
-    }
+void fermer (L7OF *fichier) {
+    rewind(fichier->f);  //on se positionne au debut de fichier
+    fwrite(fichier->entete,sizeof(Entete),1,fichier->f);  //on enregistre les modifications effectuées sur l'entete
+    fclose(fichier->f);  //on ferme le fichier
+    free(fichier->entete);  //liberer la zone entete reservée
 }
-
 
 //ouvrir un fichier de type L7OF en mode voulu
 
-void ouvrir(L7OF *fichier, char *nomF, char mode)
-{
+void ouvrir (L7OF *fichier,char nom_fich[30],const char mode) {
 
-    if ((mode == 'N') || (mode == 'n'))
-    {
+    fichier->entete = malloc(sizeof(Entete)); //allouer dynamiquement une zone en mémo centrale pour l'entete
 
-        fichier->f = fopen(nomF, "wb+");
-
-        affEntete(fichier, 1, 1);
-        affEntete(fichier, 2, 1);
-    }
-    else if ((mode == 'A') || (mode == 'a'))
-    {
-        fichier->f = fopen(nomF, "rb+");
-        if (fichier->f != NULL)
-            fread(&(fichier->entete), sizeof(entete), 1, fichier->f);
+    if ((mode=='n')||(mode=='N')) //si le mode est nouveau ie:le fichier n'existe pas déjà
+    {   fichier->f = fopen(nom_fich,"wb+"); //ouvrir un fichier en mode ecriture binaire
+        fichier->entete->tete=-1; //initialiser les champs 1 ET 3 de l'entete à -1
+        fichier->entete->NBEnreg=0; //initialiser le nombre d'enregistrements à 0
+        fichier->entete->queue=-1;
+        fwrite(fichier->entete,sizeof(Entete),1,fichier->f);//ecrire l'en_tete ds le fichier binaire
     }
     else
-        fichier->f = NULL;
-}
+    {
+        if ((mode=='a')||(mode=='A')) //si le mode est ancien ie:le fichier existe
+        {
+            fichier->f=fopen(nom_fich,"rb+"); //ouvrir le fichier en mode lecture binaire
+            if (fichier->f==NULL) printf("\n\t\t<<Le fichier n'existe pas...>>"); //si erreur d'ouverture
 
+
+            else {
+                fread(fichier->entete,sizeof(Entete),1,fichier->f);  //recuperer le contenu de l'entete ds la variable en_tete
+
+            }
+        }
+        else printf("le mode est erroné.");
+    }
+}
