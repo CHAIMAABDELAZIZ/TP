@@ -5,8 +5,9 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#define MAX 1000000
-#define b 1024
+#define MAX 9999
+#define b 10
+
 
 
 
@@ -21,7 +22,7 @@ typedef struct Date
 
 typedef struct Tenreg
 {
-    char Matricule[7];
+    int Matricule;
     char Nom[31];
     char Prenom[31];
     Date Date_Naissance;
@@ -52,15 +53,15 @@ typedef struct Entete {
 typedef Tbloc BUFFER;
 
 typedef struct caseIndexPrimaire {
-    char matricule[7];
+    int matricule;
     int Nbloc;
     int Deplacement;
-} caseIndexPrimaire ;
+} caseIndexPrimaire;
 
-typedef struct Index {
-    caseIndexPrimaire tab[MAX];
+typedef struct indexPrimaire {
+    caseIndexPrimaire tableau[MAX];
     int Nenreg;
-} Index;
+} indexPrimaire;
 
 typedef struct indexEntete
 {
@@ -73,52 +74,33 @@ typedef struct fichierIndex
     indexEntete entete;
 } fichierIndex;
 
-
-typedef struct TbolcIndex
+typedef struct tBolcIndex
 {
     caseIndexPrimaire tab[b];
     int NB;
 
 } tBlocIndex;
 
-// index Secondaire pour la spécialitée , la region ..
-typedef struct mallion
-{
-    int matricule;
-    struct mallion *suivant;
-
-} mallion;
-
-typedef struct mallionRech
-{
-    int bloc;
-    int dep;
-    struct mallionRech *suivant;
-
-} mallionRech;
-
-typedef struct iBlocForce
-{
-    int tab[b];
-    int NB;
-} iBlocForce;
-
 typedef struct L7OF
 {
     FILE *f;
-    Entete entete;
-    Index *indexPrimaire;//index primaire
+    Entete *entete;
+    indexPrimaire *indexPr;
 
 
 } L7OF;
 
+
+
+
 //Declarations des prototypes des fonctions de la machine abstraite
-void lireDir(L7OF *fichier, int i, Tbloc *buf) ;//lecture directe du contenu de fichier à la position i dans le buf
-void ecrireDir(L7OF *fichier, int i, Tbloc *buf); //ecriture directe du contenu de buf dans le fichier à la position i
+void lireDir(L7OF *fichier,int i,BUFFER *buf); //lecture directe du contenu de fichier à la position i dans le buf
+void ecrireDir(L7OF *fichier,int i,Tbloc *buf); //ecriture directe du contenu de buf dans le fichier à la position i
 int entete(L7OF *fichier,int num); //retourner la cracterstique num dans val
-void affEntete(L7OF *fichier, int i, int val);
+void affEntete(L7OF *fichier,int num,int val); //affecter à la caracteristique num la val
 int allocBloc(L7OF *fichier); //allocations d'un nouveau bloc
 void fermer (L7OF *fichier); //fermer un fichier
-void ouvrir(L7OF *fichier, char *nomF, char mode);
+void ouvrir (L7OF *fichier,char *nom_fich,const char mode); //ouvrir un fichier de type L7OF en mode voulu
+
 
 #endif //TP_SFSD_MACHINEABSTRAITE_H
