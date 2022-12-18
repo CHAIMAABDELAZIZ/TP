@@ -5,6 +5,7 @@
 
 //Déclarations des prototypes
 
+
 void gen_Matricule (int *matricule); //Generation du matricule
 void gen_Nom (char nom[31]); //Generation du Nom/Prenom
 void gen_Date (Date *date); //Generation d'une date
@@ -26,4 +27,8 @@ void insertion_Index(caseIndexPrimaire valeur, caseIndexPrimaire *tab, int taill
 void suppTabOrd(caseIndexPrimaire *tab, int taille, int pos);
 void Modification_Ens(char *nomf, L7OF *fich, int matricule);
 void sauvIndexPr(char nomIndex[], L7OF *fichier);
+char **fichVersTab(char nomf[], int taiMot, int nbMot, int *cpt);
+char *motPure(char *mot);
+
+
 #endif //TPSFSD_FONCTIONS_H
