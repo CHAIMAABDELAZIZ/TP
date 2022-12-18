@@ -1,0 +1,12 @@
+01.Informatique.
+02.Medecine.
+03.Architecture.
+04.Pharmacie.
+05.Sciences et technologie.
+06.Sciences de la matiere.
+07.Sciences huamines.
+08.Lettres.
+09.Droit, economie et gestion.
+10.Odontologie.
+11.Mathematiques.
+12.Religion, morale et philosophie.

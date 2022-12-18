@@ -1,0 +1,112 @@
+1. Université  de Bouira - Akli Mohand Oulhadj
+2. Université  de Djelfa - Ziane Achour 
+3. Université de Ghardaia 
+4. Université  de Khemis Miliana - Djilali Bounaama 
+5. Université  Médéa - Yahia Farès 
+6. Université des sciences et de la technologie d'Alger, Houari Boumediène 
+7. Université de Béjaia - Abderrahmane Mira 
+8. Université  de Boumerdès - M'hamed Bougara 
+9. Université de Tizi Ouzou - Mouloud Maameri 
+10. Université  de Laghouat - Amar Telidji 
+11. Université  Blida 1 - Saad Dahlab 
+12. Université de Blida 2 - Lounici Ali 
+13. Université d'Alger 1 - Benyoucef Benkhedda 
+14. Université d'Alger 2 - Abou el Kacem Saâdallah 
+15. Université d'Alger 3 - Brahim Soltane Chaibout 
+16. Université de la Formation Continue 
+17. Université de Tamenghasset 
+18. Université  de Jijel - Mohammed Seddik Ben yahia 
+19. Université de Tébessa - Larbi Tébessi 
+20. Université de Bordj Bou Arréridj - Mohamed Bachir El Ibrahimi 
+21. Université d'El Tarf - Chadli Bendjedid 
+22. Université  de Khenchela - Abbas Laghrour 
+23. Université  de Oum El Bouaghi - Larbi Ben M'hidi 
+24. Université d'El Oued - Hamma Lakhdar 
+25. Université de Souk Ahras - Mohammed-Chérif Messaadia 
+26. Université  de Annaba - Badji Mokhtar 
+27. Université  du 20 Août 1955 de Skikda 
+28. Université  8 Mai 1945 de Guelma 
+29. Université de Batna 1 - Hadj Lakhder 
+30. Université  de Biskra - Mohamed Khider 
+31. Université  de M'sila - Mohamed Boudiaf 
+32. Université  de Ouargla - Kasdi Merbah 
+33. Université des sciences islamiques Emir Abdelkader de Constantine 
+34. Université  de Sétif 1 - Ferhat Abbas 
+35. Université  de Sétif 2 - Mohamed Lamine Debaghine 
+36. Université  de Constantine 1 - Frères Mentouri 
+37. Université  de Constantine 2 - Abdelhamid Mehri 
+38. Université de Constantine 3 -Salah Boubnider 
+39. Université de Batna 2 - Mustapha Ben Boulaid 
+40. Université de Béchar - Mohamed Tahri 
+41. Université  de Mascara - Mustapha Stambouli
+42. Université de Saida - Tahar Moulay 
+43. Université  de Tlemcen - Abou Bekr Belkaid 
+44. Université  d'Adrar - Ahmed Draya 
+45. Université  de Tiaret - Ibn Khaldoun 
+46. Université  Sidi Bel Abbès - Djillali Liabes 
+47. Université de Mostaganem - Abdelhamid Ibn Badis 
+48. Universitéd'Oran1 - Ahmed Ben Bella 
+49. Université Mohamed Boudiaf  des sciences et de la technologie - Mohamed Boudiaf  d'Oran 
+50. Université  d'Oran 2 - Mohamed Ben Ahmed 
+51. Université  de Chlef - Hassiba Benbouali
+52. Université de Tissemsilt
+53. Université de Aïn Témouchent
+54. Université de Relizane
+55.  Ecole Nationale Polytechnique
+56. Ecole nationale supérieure d'hydraulique - Arbaoui Abdellah
+57.  Ecole nationale supérieure des travaux publics -  Francis Jeanson
+58. Ecole nationale supérieure vétérinaire - Rabie Bouchama
+59.  Ecole Polytechnique d'architecture et d'Urbanisme-Hocine Aït Ahmed
+60. Ecole nationale supérieure agronomique- Khalef Abdellah alias Kasdi Merbah
+61.  Ecole des hautes études commerciales
+62. Ecole nationale supérieure d'informatique
+63. Ecole nationale supérieure en statistique et en économie appliquée
+64. Ecole Supérieure de Commerce-Mouloud Kacem Naït Belkacem
+65. Ecole nationale supérieure des sciences de la mer et de l'aménagement du littoral
+66. Ecole nationale supérieure de management
+67. Ecole Nationale Supérieure de Technologie
+68. Ecole nationale supérieure de journalisme et des sciences de l'information
+69. Ecole Nationale Supérieure des sciences politiques
+70. Ecole Supérieure des Sciences de l'Aliment et des Industries Agroalimentaires d'Alger  ex  EP SNV Alger
+71. Ecole Supérieure des Sciences appliquées d'Alger ex EP ST Alger
+72. Ecole Supérieure de Gestion et d'Economie Numérique
+73. École Supérieure en Sciences et Technologies de l'Informatique et du Numérique de Bejaia
+74. École Nationale Supérieure en Intelligence Artificielle
+75. École Nationale Supérieure en Mathématique
+76.  Ecole nationale supérieure des mines et de la métallurgie - Amar Laskri
+77. Ecole Nationale Polytechnique de Constantine- Malek Bennabi
+78.  Ecole Nationale Supérieure de Biotechnologie de Constantine - Tewfik Khaznadar
+79. Ecole Supérieure des Sciences de Gestion de Annaba ex  - EPSECG Annaba
+80. Ecole Supérieure des Technologies Industrielles de Annaba  ex EP ST Annaba
+81. Ecole Supérieure de Comptabilité et de Finance de Constantine ex EPSECG Constantine
+82. École nationale supérieure des forêts - Khenchela
+83. L'Ecole nationale supérieure des énergies renouvelables, environnement et développement durable - Batna
+84. Ecole Nationale Polytechnique d'Oran - Maurice Audin
+85. Ecole  Supérieure d'Informatique (Sidi Bel Abbes)- 08 Mai 1945
+86. Ecole Supérieure des Sciences Appliquées de Tlemcen ex EP ST Tlemcen
+87. Ecole Supérieure de Management de Tlemcen  ex EPSECG Tlemcen
+88. Ecole Supérieure d'Economie d'Oran   ex EPSECG Oran
+89. Ecole Supérieure en Génie Electrique et Energétique d'Oran  ex EP ST Oran
+90. Ecole Supérieure Agronomique de Mostaganem  ex EP SNV Mostaganem
+91. Ecole Supérieure des sciences Biologiques  d' Oran ex EP SNV Oran
+92. Ecole normale supérieure de Bouzaréah - Cheikh Mubarak Ben Mohamed Brahimi El Mili
+93. Ecole normale supérieure de Kouba - Mohamed Bachir El Ibrahimi
+94. Ecole normale supérieure de Laghouat - Taleb Abderrahmane
+95. Ecole normale supérieure de sourds muets
+96. Ecole normale supérieure de Constantine -Assia Djebar
+97. Ecole normale supérieure d'enseignement technologique de Skikda
+98. Ecole normale supérieure de setif - Messaoud Zeghar
+99. Ecole normale supérieure de Bou Saâda
+100. Ecole normale supérieure de Ouargla
+101. Ecole Normale Supérieure de Mostaganem
+102. Ecole Normale Supérieure d'Oran
+103. Ecole normale supérieure de Béchar
+104. Centre universitaire de Tipaza - Abdallah Morsli
+105. Centre Universitaire d'Illizi-Cheikh Amoud ben Mokhtar
+106. Centre universitaire d'Aflou
+107. Centre Universitaire de Mila - Abdelhafid Boussouf
+108. Centre Universitaire de Barika - Si El Haouès
+109. Centre universitaire   de Naama - Ahmed Salhi
+110. Centre universitaire   d'El Bayadh - Nour Bachir
+111. Centre universitaire de Tindouf-Ali Kafi
+112. Centre universitaire de Maghnia
