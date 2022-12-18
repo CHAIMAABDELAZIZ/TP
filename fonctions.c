@@ -50,7 +50,7 @@ void gen_Date (Date *date) {
 
 }
 
-void gen_Wilaya (char Wilaya[30]) {
+void gen_Wilaya (char Wilaya[22]) {
 
     strcpy(Wilaya,nomWilaya[(rand()%58)]);
 
@@ -79,8 +79,8 @@ void gen_Specialite (char Specialite[30]) {
 }
 
 
-void gen_EU (char Etab_Univ[70]) {
-    sprintf(Etab_Univ,"%d",nomEU[(rand()%111)]);
+void gen_EU (char Etab_Univ[97]) {
+    strcpy(Etab_Univ,nomEU[(rand()%111)]);
 }
 
 void gen_GS (char groupeSanguin[4]) {
@@ -101,7 +101,7 @@ Tenreg enseignant() {
     gen_Grade(e.Grade);
     gen_Specialite(e.Specialite);
     gen_Dernier_Diplome(e.Dernier_Diplome);
-    //gen_EU(e.Etablissement_Universitaire);
+    gen_EU(e.Etablissement_Universitaire);
     return e;
 }
 
@@ -321,7 +321,7 @@ void Affichage(L7OF *fichier, char *nomf) {
               printf("%s\n",buf.tab[k].Grade);
               printf("%s\n",buf.tab[k].Specialite);
               printf("%s\n",buf.tab[k].Dernier_Diplome);
-             // printf("%s\n",buf.tab[k].Etablissement_Universitaire);
+              printf("%s\n",buf.tab[k].Etablissement_Universitaire);
               printf("%s/%s/%s\n",buf.tab[k].Date_Recrutement.jour,buf.tab[k].Date_Recrutement.mois,buf.tab[k].Date_Recrutement.annee);
         }
         i=buf.suivant;
@@ -441,26 +441,23 @@ char **fichVersTab(char nomf[], int taiMot, int nbMot, int *cpt)
 
     FILE *f = fopen(nomf, "r");
     char mot[taiMot];
-    char **tabMot = (char **)malloc(sizeof(char *) * nbMot); //alocation dynamique du tableau
+     char **tabMot = (char **)malloc(sizeof(char *) * nbMot); //alocation dynamique du tableau
     *cpt = 0;
 
     if (f != NULL)
-
         while (!feof(f))
         {    {
 
                 fgets(mot, 100, f); //recuperer la ligne
-            if (motPure(mot) != NULL) //s'il existe un mot dans la ligne
+                if (motPure(mot) != NULL) //s'il existe un mot dans la ligne
             {
                 strcpy(mot, motPure(mot)); // recuperer le motPure
+
                 tabMot[*cpt] = (char *)malloc(sizeof(char) * taiMot);
                 strcpy(tabMot[*cpt], mot); //copier le mot dans une case dans tabMot
-                *cpt = *cpt + 1;
+                       *cpt = *cpt + 1;
             }
         }
-    }
-    for (int p = 0; p < 12; ++p) {
-        printf("%s",tabMot[p]);
     }
     fclose(f);
     return tabMot;
