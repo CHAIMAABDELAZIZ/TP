@@ -23,14 +23,14 @@ typedef struct Tenreg
     char Nom[31];
     char Prenom[31];
     Date Date_Naissance;
-    char Wilaya[20];
+    char Wilaya[22];
     char Sexe[10];
     char Groupe_Sanguin[4];
     Date Date_Recrutement;
     char Grade[30];
     char Specialite[30];
     char Dernier_Diplome[30];
-    char Etablissement_Universitaire[30];
+    char Etablissement_Universitaire[97];
 }Tenreg;
 
 typedef struct Tbloc
