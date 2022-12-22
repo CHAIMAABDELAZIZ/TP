@@ -4,32 +4,27 @@
 #include <time.h>
 #include <string.h>
 
-char  **nomWilaya,**nomSpecialite, **nomEU ; // tableau pour recuperer les differents noms
+char  **nomWilaya,**nomSpecialite, **nomEU, **region_centre, **region_est, **region_ouest ; // tableau pour recuperer les differents noms
 
 int main() {
-    int c;
-    nomWilaya = fichVersTab("..\\Fichiers_System\\Wilaya.txt", 30, 57, &c);
-    nomSpecialite = fichVersTab("..\\Fichiers_System\\oklm.txt", 30, 11, &c);
-    for (int p = 0; p < 12; ++p) {
-        printf("%s",nomSpecialite[p]);
-    }
-    for (int p = 0; p < 12; ++p) {
-        printf("%s",nomWilaya[p]);
-    }
-    //nomEU = fichVersTab("..\\Fichiers_System\\Eablissement_univ.txt", 70, 111, &c);
+    int c,v1,v2;
+    nomWilaya = fichVersTab("..\\Fichiers_System\\Wilaya.txt", 22, 58, &c);
+    nomSpecialite = fichVersTab("..\\Fichiers_System\\oklm.txt", 33, 111, &c);
+    nomEU = fichVersTab("..\\Fichiers_System\\Eablissement_univ.txt", 97, 114, &c);
 
     srand(time(NULL));
         L7OF ENS ;
         indexPrimaire indexPrim ;
         ENS.indexPr = &indexPrim;
-        BUFFER buff ;
+        tBlocIndex buff ;
+        chargementInitial(&ENS, "Fichier.bin", 5);
+        Affichage(&ENS,"Fichier.bin" )   ;
+        consultation_region(&ENS, "Fichier.bin");
+    /* fich.f = fopen("index.bin","rb");
+     fread(&buff,100,1,fich.f);
+     for (int i = 0; i <10 ; ++i) {
+         printf("\n%d",&buff.tab[i].matricule);
+       printf("\n%d",&buff.tab[i].Nbloc);
+          printf("\n%d",&buff.tab[i].Deplacement);*/
 
-        chargementInitial(&ENS, "Fichier.bin", 10);
-        Affichage(&ENS, "Fichier.bin");
-        /*sauvIndexPr("index.bin", &ENS);
-        fichierIndex fich;
-        fich.f = fopen("index.bin","rb");
-        fgets(&buff,10,fich.f);
-        printf("%s",&buff);*/
-
-}
+    }
