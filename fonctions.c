@@ -2,11 +2,13 @@
 #include <stdlib.h>
 #include <string.h>
 #include <ctype.h>
+#include <windows.h>
 #include "MachineAbstraite.h"
 #include "fonctions.h"
-extern char **nomWilaya;
-extern char **nomSpecialite;
-extern char **nomEU;
+
+
+extern char **nomWilaya, **nomSpecialite, **nomEU, **region_centre, **region_est, **region_ouest;
+
 void gen_Matricule (int *matricule) {
     *matricule=0;
     *matricule=(rand()*100)%888888+111111;
@@ -80,7 +82,7 @@ void gen_Specialite (char Specialite[30]) {
 
 
 void gen_EU (char Etab_Univ[97]) {
-    strcpy(Etab_Univ,nomEU[(rand()%111)]);
+    strcpy(Etab_Univ,nomEU[rand()%111]);
 }
 
 void gen_GS (char groupeSanguin[4]) {
@@ -113,13 +115,19 @@ void chargementInitial(L7OF *fich, char *nomf, int N) {
     int i=0,
     j=0,
     i1=0,
-
-    pos;
+    pos,z=0,s=0;
 
     ouvrir(fich, nomf, 'N');
     fich->indexPr->Nenreg=0;
     i=allocBloc(fich);
+    for (int v = 0; v < 113; ++v) {
+        fich->iEU[v].nbmat = 0;
+    }
+    for (int v = 0; v < 12; ++v) {
+        fich->iSpecialite[v].nbmat = 0;
+    }
     for (int k = 0; k < N; ++k) {
+
         int trouv=1;
         while (trouv)
         {
@@ -127,6 +135,8 @@ void chargementInitial(L7OF *fich, char *nomf, int N) {
             Ens = enseignant();
             RechDicho(Ens.Matricule, fich->indexPr->tableau, k, &trouv, &pos);
         }
+        int a=RechSeq(nomSpecialite, Ens.Specialite);
+        int d=RechSeq(nomEU, Ens.Etablissement_Universitaire);
         if (j < b) {
             buf.tab[j]=Ens;
            valIndex = (caseIndexPrimaire){.matricule = Ens.Matricule, .Nbloc = i, .Deplacement = j};
@@ -146,7 +156,14 @@ void chargementInitial(L7OF *fich, char *nomf, int N) {
             fich->indexPr->Nenreg++;
             j=1;
         }
+        insererLLC(&(fich->iSpecialite[a].info), Ens.Matricule);
+        s++;
+        fich->iEU[d].nbmat=s ;
+        insererLLC(&(fich->iEU[d].info), Ens.Matricule);
+        z++;
+        fich->iEU[d].nbmat=z ;
     }
+
     buf.NB=j;
     buf.suivant=-1;
     ecrireDir(fich,i,&buf);
@@ -183,10 +200,17 @@ Tenreg Demander_Info() {
     Tenreg Ens;
     caseIndexPrimaire Case;
     int trouv,k,taille;
-
+    int a;
     printf("\n");
     printf("Donnez le matricule de l'enseignant?\n");
     scanf("%d",&Ens.Matricule);
+    for (int l = 0; l <= 113; l++)
+    {
+        printf ("\n %s",nomEU[l]);
+    }
+    printf("Donnez l'etablisssement universitaire de l'enseignant?\n");
+    scanf("%d",&a);
+    strcpy(Ens.Etablissement_Universitaire,nomEU[a]);
 /*
     RechDicho (Ens.Matricule, &Case, taille, &trouv, &k);
     if (trouv) {
@@ -212,10 +236,32 @@ Tenreg Demander_Info() {
         scanf("%s",Ens.Specialite);
         printf("Donnez le dernier diplome de l'enseignant?\n");
         scanf("%s",Ens.Dernier_Diplome);
-        printf("Donnez l'etablisssement universitaire de l'enseignant?\n");
-        scanf("%s",Ens.Etablissement_Universitaire);
+
     }*/
     return Ens;
+}
+
+void afficher_enreg(L7OF *fichier, char *nomf, int mat)
+{
+    int i,j,k,trouv;
+    BUFFER buf;
+    Tenreg E;
+    RechDicho (mat, fichier->indexPr->tableau, fichier->indexPr->Nenreg, &trouv, &k);
+    i=fichier->indexPr->tableau[k].Nbloc,
+    j=fichier->indexPr->tableau[k].Deplacement;
+    lireDir(fichier, i,&buf);
+    E = buf.tab[j];
+    printf(" -%d:%d %d\n",i,k, E.Matricule);
+    printf("%s\n",E.Wilaya);
+    printf("%s\n",E.Nom);
+    printf("%s\n",E.Sexe);
+    printf("%s/%s/%s\n",E.Date_Naissance.jour,E.Date_Naissance.mois,E.Date_Naissance.annee);
+    printf("%s\n",E.Groupe_Sanguin);
+    printf("%s\n",E.Grade);
+    printf("%s\n",E.Specialite);
+    printf("%s\n",E.Dernier_Diplome);
+    printf("%s\n",E.Etablissement_Universitaire);
+    printf("%s/%s/%s\n",E.Date_Recrutement.jour,E.Date_Recrutement.mois,E.Date_Recrutement.annee);
 }
 
 void insertion_Ens(L7OF *fich, char *nomf) { //Insertion sans table d'index
@@ -258,49 +304,43 @@ void insertion_Ens(L7OF *fich, char *nomf) { //Insertion sans table d'index
     fermer(fich);
 }
 
-/*void suppression_Ens(L7OF *f, char *nomf) {
-    BUFFER buf1,buf2;
-    char trouv ;
-    int i=2,
-    j=1,
-    matricule=0,
-    pos;
-    caseIndexPrimaire X;
+void suppression_Ens(L7OF *f, char *nomf, int mat) {
+    BUFFER buf;
+    Tenreg X;
+    int trouv=0, k=0;
     ouvrir(f,nomf,'A');
-    RechDicho(matricule, f->indexPr->tableau, f->indexPr->Nenreg, &trouv, &pos);
-    i = f->indexPr->tableau[pos].Nbloc; // bloc ou il se trouve
-    j = f->indexPr->tableau[pos].Deplacement;  // dep  dans le bloc
-    lireDir(f, entete(f,2),&buf1);
-    lireDir(f, i,&buf2);
+    lireDir(f, entete(f,2),&buf);
+    RechDicho (mat, f->indexPr->tableau, f->indexPr->Nenreg, &trouv, &k);
+    printf("%d",k);
+    int i=f->indexPr->tableau[k].Nbloc,
+            j=f->indexPr->tableau[k].Deplacement;
+    printf("%d,%d",i,j);
+    if (trouv) {
+        if ((entete(f,2) == entete(f,1)) && buf.NB==1) {
+            affEntete(f,1,-1);
+            affEntete(f,2,-1);
+            affEntete(f,3,0);
+            buf.NB=0;
+        } else {
 
+            X=buf.tab[buf.NB-1];
+            buf.NB--;
+            if (buf.NB==0) {
 
-    if ((entete(f,2) == entete(f,1)) && buf1.NB==1) {
-        affEntete(f,1,-1);
-        affEntete(f,2,-1);
-        affEntete(f,3,0);
-        buf1.NB=0;
-    } else {
+                affEntete(f,2, entete(f,2)-1);
+                lireDir(f, entete(f,2),&buf);
+                buf.suivant=-1;
+            }
+            ecrireDir(f, entete(f,2),&buf);
+            lireDir(f,i,&buf);
+            buf.tab[j]=X;
+            affEntete(f,3, entete(f,3)-1);
 
-        buf2.tab[j] = buf1.tab[buf1.NB-1];
-        buf1.NB--;
-        if (buf1.NB==0) {
-
-            affEntete(f,2, entete(f,2)-1);
-            lireDir(f, entete(f,2),&buf1);
-            buf1.suivant=-1;
         }
-        ecrireDir(f, entete(f,2),&buf1);
-        lireDir(f,i,&buf1);
-        buf1.tab[1] = buf2.tab[j];
-        affEntete(f,3, entete(f,3)-1);
-
+        ecrireDir(f, i,&buf);
     }
-    ecrireDir(f, i,&buf1);
-    ecrireDir(f, i,&buf2);
-    //suppression dans la table d'index
-    suppTabOrd(f->indexPr->tableau, f->indexPr->Nenreg, pos);
     fermer(f);
-}*/
+}
 
 
 void Affichage(L7OF *fichier, char *nomf) {
@@ -311,7 +351,7 @@ void Affichage(L7OF *fichier, char *nomf) {
         lireDir(fichier, i,&buf);
 
         for (int k = 0; k < buf.NB; ++k) {
-            printf(" -%d:%d %d\n",i,k, buf.tab[k].Matricule); //si tu veux tester les autres champs enleve juste les (/**/)
+             printf(" -%d:%d %d\n",i,k, buf.tab[k].Matricule);
               printf("%s\n",buf.tab[k].Wilaya);
               printf("%s\n",buf.tab[k].Nom);
               printf("%s\n",buf.tab[k].Prenom);
@@ -321,7 +361,7 @@ void Affichage(L7OF *fichier, char *nomf) {
               printf("%s\n",buf.tab[k].Grade);
               printf("%s\n",buf.tab[k].Specialite);
               printf("%s\n",buf.tab[k].Dernier_Diplome);
-              printf("%s\n",buf.tab[k].Etablissement_Universitaire);
+               printf("%s\n",buf.tab[k].Etablissement_Universitaire);
               printf("%s/%s/%s\n",buf.tab[k].Date_Recrutement.jour,buf.tab[k].Date_Recrutement.mois,buf.tab[k].Date_Recrutement.annee);
         }
         i=buf.suivant;
@@ -365,31 +405,36 @@ void suppTabOrd(caseIndexPrimaire *tab, int taille, int pos)
 }
 
 void Modification_Ens(char *nomf, L7OF *fich, int matricule) {
-    int trouv,pos,i,j,N,l;
+    int trouv=0,pos=0,i,j,N,k;
     Tenreg E;
     BUFFER buf;
+
     RechDicho(matricule, fich->indexPr->tableau, fich->indexPr->Nenreg, &trouv, &pos);
+    ouvrir(fich,nomf,'A');
     if (trouv){
         i=fich->indexPr->tableau[pos].Nbloc;
         j=fich->indexPr->tableau[pos].Deplacement;
         lireDir(fich,i,&buf);
-        printf("Veuillez choisir le numero du nouveau etablissement de l'enseignant");
-        for ( l = 0; l <= 111; l++)
+        for ( int l = 0; l <= 113; l++)
         {
-            printf ("\n %d",nomEU[l]);
+            printf ("\n %s",nomEU[l]);
         }
-        scanf("%d",N);
-        strcpy( buf.tab[j].Etablissement_Universitaire,nomEU[l]);
+        printf("Veuillez choisir le numero du nouveau etablissement de l'enseignant");
+        scanf("%d",&N);
+        printf("N");
+        strcpy( buf.tab[j].Etablissement_Universitaire,nomEU[N]);
+
     }
+    ecrireDir(fich,i,&buf);
+    fermer(fich);
 }
 
-void sauvIndexPr(char nomIndex[], L7OF *fichier)
+void sauvIndexPr(char *nomIndex, L7OF *fichier)
 {
-
     fichierIndex ifichier;
     tBlocIndex buf;
     int j = 0, i = 1;
-
+    buf.NB=0;
     ifichier.f = fopen(nomIndex, "wb"); //ouverture en mode nouveau
 
     if (ifichier.f != NULL)
@@ -422,6 +467,9 @@ void sauvIndexPr(char nomIndex[], L7OF *fichier)
         // ecriture du l'entete dans le fichier
         fwrite(&(ifichier.entete), sizeof(indexEntete), 1, ifichier.f);
         fclose(ifichier.f);
+        ifichier.f= fopen(nomIndex,"rb");
+        fread(&buf,10,1,ifichier.f);
+
     }
 }
 
@@ -430,7 +478,7 @@ void sauvIndexPr(char nomIndex[], L7OF *fichier)
 char *motPure(char *mot)
 {
 
-    char delimiteurs[] = "/\\\t\n;:.=*\"(){}<>!?&$1234567890"; //caratere non alphabetique
+    char delimiteurs[] = "/\\\t\n;:.=*\"(){}<>!?&$"; //caratere non alphabetique
     return strtok(mot, delimiteurs);
 }
 
@@ -463,5 +511,181 @@ char **fichVersTab(char nomf[], int taiMot, int nbMot, int *cpt)
     return tabMot;
 }
 
+void insererLLC(maillon **tete, int matricule)
+{
 
+    maillon *p = malloc(sizeof(maillon));
+    p->matricule = matricule;
+    p->suivant = (struct mallion *) *tete;
+    *tete = p;
+}
 
+void supprimerLLC(maillon **tete, int matricule)
+{
+    maillon *p = *tete, *q = NULL;
+    if ((*tete) != NULL)
+    {
+        while ((p != NULL) && (p->matricule != matricule))
+        {
+            q = p;
+            p = (maillon *) p->suivant;
+        }
+        if (p != NULL)
+        {
+            if (p->matricule == matricule)
+            {
+                if (q == NULL)
+                {
+                    *tete = (maillon *) (*tete)->suivant;
+                    free(p);
+                }
+                else
+                {
+                    q->suivant = p->suivant;
+                    free(p);
+                }
+            }
+        }
+    }
+}
+
+void libererLLC(maillon *liste)
+{
+    maillon *p;
+    while (liste != NULL)
+    {
+        p = liste;
+        liste = (maillon *) liste->suivant;
+        free(p);
+    }
+}
+
+int RechSeq(char **tabmot, char *nom) {
+    int trouv = 0, i = 0;
+    while (!trouv) {
+        if (strcmp(tabmot[i], nom) == 0) {
+            trouv = 1;
+
+        }else{
+            i++;
+        }
+    }
+    return i ;
+}
+
+void Suppression_Specialite(char *nomf, L7OF *fichier){
+    int Nspecialite=0, mat=0 ;
+    maillon *P,*Q;
+    for (int i = 0; i < 12; ++i) {
+        printf("\n%s",nomSpecialite[i]);
+    }
+    printf("\nVeuillez choisir le numero de la specialite que vous souhaitez supprimer");
+    scanf("%d",&Nspecialite);
+     P=fichier->iSpecialite[Nspecialite].info;
+    for (int i = 0; i < fichier->iSpecialite[Nspecialite].nbmat; ++i)
+    {
+       mat = P->matricule;
+       suppression_Ens(fichier, nomf, mat);
+        P = (maillon *) P->suivant;
+    }
+    P->suivant=NULL;
+    libererLLC(Q);
+}
+
+void Affichage_EU(char *nomf, L7OF *fichier,int v1,int v2){
+    int NEU,mat, trouv, k, i, j,v,an,d;
+    maillon *P,*Q;
+    BUFFER buf;
+    Tenreg E ;
+
+    SYSTEMTIME Time;
+    GetLocalTime(&Time);
+    an=Time.wYear;
+
+    ouvrir(fichier,nomf,'A');
+    for (int i = 0; i < 114; ++i) {
+        printf("\n%s",nomEU[i]);
+    }
+    printf("\nVeuillez choisir le numero de l'etablissement que vous souhaitez afficher");
+    scanf("%d",&NEU);
+    printf("enrez la premiere valeure");
+    scanf("%d",&v1);
+    printf("enrez la 2eme valeure");
+    scanf("%d",&v2);
+    P=fichier->iEU[NEU].info;
+
+    for (int l = 0; l <fichier->iEU[NEU].nbmat ; ++l)
+    {
+        mat = P->matricule;
+        RechDicho (mat, fichier->indexPr->tableau, fichier->indexPr->Nenreg, &trouv, &k);
+        i=fichier->indexPr->tableau[k].Nbloc,
+        j=fichier->indexPr->tableau[k].Deplacement;
+        lireDir(fichier, i,&buf);
+        E = buf.tab[j];
+        d = atoi(E.Date_Recrutement.annee);
+        v = (an-d);
+        if ((v>=v1) && (v<=v2)){
+            afficher_enreg(fichier, nomf, E.Matricule)  ;      }
+        else printf("Il n'exise aucun enseignant ayant uen anciennée entre ces deuc valeurs");
+        P = (maillon *) P->suivant;
+    }
+    if (fichier->iEU[NEU].nbmat == 0){
+        printf("Il n'existe aucun enseignant enregistré dans cet etabliseement");
+    }
+}
+
+void consultation_region(L7OF *fich, char *nomf){
+    int i,mat,trouv,k,c;
+    maillon *P;
+    Tenreg E;
+    BUFFER buf;
+    printf("donner la region: 01-Centre \n 02-Est \n 03-Ouest");
+    scanf("%d",&i);
+    ouvrir(fich,nomf,'A');
+    if (i==01) {
+        region_centre = fichVersTab("..\\Fichiers_System\\region-centre.txt", 97, 45, &c);
+        for (int j = 0; j < 44; ++j) {
+            int u = RechSeq(nomEU, region_centre[j]);
+            if (fich->iEU[u].nbmat != 0) {
+                P = fich->iEU[u].info;
+                for (int l = 0; l < fich->iEU[u].nbmat; ++l) {
+                    mat = P->matricule;
+                    printf("le mat est %d ",mat);
+                    //afficher_enreg(fich, nomf, mat)  ;
+                    P = (maillon *) P->suivant;
+                }
+            }
+        }
+
+    }
+    else {
+        if (i = 02) {
+            region_est = fichVersTab("..\\Fichiers_System\\region-est.txt", 97, 37, &c);
+            for (int j = 0; j < 37; ++j) {
+                int u = RechSeq(nomEU, region_est[j]);
+                if (fich->iEU[u].nbmat != 0) {
+                    P = fich->iEU[u].info;
+                    for (int l = 0; l < fich->iEU[u].nbmat; ++l) {
+                        mat = P->matricule;
+                        afficher_enreg(fich, nomf, mat)  ;
+                    P = (maillon *) P->suivant;
+                    }
+                }
+            }
+        }
+        if (i = 03) {
+            region_ouest = fichVersTab("..\\Fichiers_System\\region-ouest.txt", 97, 29, &c);
+            for (int j = 0; j < 29; ++j) {
+                int u = RechSeq(nomEU, region_ouest[j]);
+                if (fich->iEU[u].nbmat != 0) {
+                    P = fich->iEU[u].info;
+                    for (int l = 0; l < fich->iEU[u].nbmat; ++l) {
+                        mat = P->matricule;
+                        afficher_enreg(fich, nomf, mat)  ;
+                        P = (maillon *) P->suivant;
+                    }
+                }
+            }
+        }
+    }
+}
