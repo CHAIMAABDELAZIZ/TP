@@ -19,16 +19,22 @@ void gen_GS (char groupeSanguin[2]); //Generation du groupe sanguin
 Tenreg enseignant();
 void RechDicho (int matricule, caseIndexPrimaire *Case, int taille, int *trouv, int *k);
 Tenreg Demander_Info();
+void afficher_enreg(L7OF *f, char *nomf, int mat);
 void chargementInitial(L7OF *fich, char *nomf, int N);
 void Affichage(L7OF *fichier, char *nomf);
 void insertion_Ens(L7OF *fich, char *nomf);
-void suppression_Ens(L7OF *f, char *nomf);
+void suppression_Ens(L7OF *f, char *nomf, int mat);
 void insertion_Index(caseIndexPrimaire valeur, caseIndexPrimaire *tab, int taille);
 void suppTabOrd(caseIndexPrimaire *tab, int taille, int pos);
 void Modification_Ens(char *nomf, L7OF *fich, int matricule);
-void sauvIndexPr(char nomIndex[], L7OF *fichier);
+void sauvIndexPr(char *nomIndex, L7OF *fichier);
 char **fichVersTab(char nomf[], int taiMot, int nbMot, int *cpt);
 char *motPure(char *mot);
-
-
+void insererLLC(maillon  **tete, int matricule);
+void supprimerLLC(maillon **tete, int matricule);
+void libererLLC(maillon *liste);
+void Suppression_Specialite(char *nomf, L7OF *fichier);
+int RechSeq(char **tabmot, char *nom);
+void Affichage_EU(char *nomf, L7OF *fichier,int v1,int v2);
+void consultation_region(L7OF *fich, char *nomf);
 #endif //TPSFSD_FONCTIONS_H
