@@ -692,6 +692,14 @@ void consultation_region(L7OF *fich, char *nomf){
 
 
 //FROM HERE
+
+void Affichage_Entete(L7OF *fichier, char *nomf) {
+    ouvrir(fichier, nomf, 'A');
+    printf("\n%d", entete(fichier,1));
+    printf("\n%d", entete(fichier,2));
+    printf("\n%d", entete(fichier,3));
+}
+
 char *gen_cle( char *code,const char *cle) {
     char *newCle = malloc(strlen(code)+1);
     strcpy(newCle,cle);
