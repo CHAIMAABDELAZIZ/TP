@@ -37,4 +37,19 @@ void Suppression_Specialite(char *nomf, L7OF *fichier);
 int RechSeq(char **tabmot, char *nom);
 void Affichage_EU(char *nomf, L7OF *fichier,int v1,int v2);
 void consultation_region(L7OF *fich, char *nomf);
+void Affichage_Entete(L7OF *fichier, char *nomf);
+//FROM HERE
+void Codage(L7OF *fichier, char *nomfCode, char *nomf);
+void coderMat(int n,int *mat);
+int bubbleSort(int *arr,int mat,int sort);
+void swap(int* x, int* y);
+int decoderMat(int key, int *mat);
+int lookFor(int tab_int[7], int a);
+void Decodage(L7OF *fichdecode, char *nomfDecode, char *nomfCode);
+void VignereEncrypt(char *Message, char *key, char *coded);
+char *gen_cle( char *code,const char *cle);
+void Encrypted(char *code,const char *cle, char codee[]);
+void Decrypted(char *coded, char *cle, char decodee[]);
+void stringToUpper(char *Str);
+void stringToLower(char *Str);
 #endif //TPSFSD_FONCTIONS_H
