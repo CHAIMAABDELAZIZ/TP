@@ -2,8 +2,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-
-
+extern int nbLireDir,
+nbEcrireDir; //FAUT VOIR LE MAIN AUSSI 
 
 //lecture directe du contenu de fichier à la position i dans le buf
 void lireDir(L7OF *fichier,int i,BUFFER *buf)  {
@@ -11,7 +11,7 @@ void lireDir(L7OF *fichier,int i,BUFFER *buf)  {
     rewind(fichier->f);
     fseek(fichier->f,sizeof(Entete)+i*sizeof(Tbloc),SEEK_SET); //se positionner à la place exacte
     fread(buf,sizeof(Tbloc),1,fichier->f); //lecture
-
+    nbLireDir++;
 }
 
 //ecriture directe du contenu de buf dans le fichier à la position i
@@ -20,6 +20,7 @@ void ecrireDir(L7OF *fichier,int i,Tbloc *buf) {
     rewind(fichier->f);
     fseek(fichier->f,sizeof(Entete)+i*sizeof(Tbloc),SEEK_SET); //se positionner à la place exacte
     fwrite(buf,sizeof(Tbloc),1,fichier->f); //ecriture
+    nbEcrireDir++;
 }
 
 //retourner la cracterstique num dans val
