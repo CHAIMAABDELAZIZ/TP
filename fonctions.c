@@ -689,3 +689,307 @@ void consultation_region(L7OF *fich, char *nomf){
         }
     }
 }
+
+
+//FROM HERE
+char *gen_cle( char *code,const char *cle) {
+    char *newCle = malloc(strlen(code)+1);
+    strcpy(newCle,cle);
+    int x = strlen(code),
+    y = strlen(newCle);
+    int i=0;
+    while (y != x) {
+        if (i==x){
+            i=0;
+        }
+        strncat(newCle, &newCle[i],1);
+        i++;
+        y = strlen(newCle);
+    }
+    stringToUpper(newCle);
+    return newCle;
+}
+
+void Encrypted(char *code, const char *cle, char codee[]) {
+    stringToUpper(code);
+    char *key = gen_cle(code,cle);
+    strncpy(codee,"",30);
+    for (int i=0; i < strlen(code); i++) {
+        int x=0;
+        x = (code[i] + key[i]) % 26;
+        x = x + 'A';
+        codee[i] = (char) x;
+    }
+}
+
+void Decrypted(char *coded, char *cle,char decodee[]) {
+    stringToUpper(coded);
+    char *deckey= gen_cle(coded,cle);
+    strncpy(decodee,"",31);
+    int i=0;
+    while ((i < strlen(coded) && (i < strlen(deckey)))){
+        int x = (coded[i] - deckey[i] + 26)%26;
+        x = x+'A';
+        decodee[i]=(char) x;
+        i++;
+    }
+}
+
+
+void coderMat(int n, int *matricule) {
+    char tab_char[7];
+    int tab_int[7];
+    itoa(n,tab_char,10);
+
+    for (int i = 0; i < 6; ++i) {
+        if (tab_char[i]=='0') {
+            tab_char[i]='9';
+        }
+        tab_int[i]=tab_char[i]- '0';
+    }
+    *matricule = bubbleSort(tab_int,*matricule,1);
+    for (int i = 0; i < 6; ++i) {
+        tab_char[i]=tab_int[i]+'0';
+
+    }
+    n = atoi(tab_char);
+
+
+}
+void swap(int* x, int* y)
+{
+    int temp = *x;
+    *x = *y;
+    *y = temp;
+}
+
+// A function to implement bubble sort
+int bubbleSort(int arr[], int mat,int sort)
+{
+    int i, j;
+    char tab_char[7];
+    int tab_int[7];
+    itoa(mat,tab_char,10);
+
+    for (int k= 0; k < 6; ++k) {
+        tab_int[k]=tab_char[k]- '0';
+    }
+
+    for (i = 0; i < 5 ; i++)
+
+        // Last i elements are already in place
+        for (j = 0; j < 5 - i ; j++) {
+            if (arr[j] > arr[j + 1]) {
+                swap(&arr[j], &arr[j + 1]);
+               if(sort) swap(&tab_int[j],&tab_int[j+1]);
+
+            }
+
+        }
+    if (sort) {
+        for (int k = 0; k < 6; ++k) {
+            tab_char[k]=tab_int[k]+'0';
+            mat = atoi(tab_char);
+        }
+    }
+
+        return mat;
+}
+
+int decoderMat(int key, int *mat) {
+
+    char ord_key[7],mat_char[7];
+    int tab[7], tab1[7],tab_mat[7];
+    itoa(key,ord_key,10);
+    for (int i = 0; i < 6; ++i) {
+        tab[i]=ord_key[i]-'0';
+        tab1[i]=tab[i];//tab1 key init
+    }
+    itoa(*mat,mat_char,10);
+    for (int i = 0; i < 6; ++i) {
+        tab_mat[i]=mat_char[i]-'0';
+    }
+    bubbleSort(tab,*mat,0); //tab key ordored
+    for (int i = 0; i < 5; ++i) {
+        for (int j = 0; j < 6; ++j) {
+            if (tab[j]!=tab1[j]) {
+                int pos = lookFor(tab,tab1[j]);
+                swap(&tab[pos], &tab[j]);
+                swap(&tab_mat[pos],&tab_mat[j]);
+            }
+        }
+    }
+    for (int i = 0; i < 6; ++i) {
+        mat_char[i]=tab_mat[i]+'0';
+    }
+    *mat=atoi(mat_char);
+    return *mat;
+}
+
+int lookFor(int tab_int[7], int a) {
+    int i;
+    for (int j = 0; j < 6; ++j) {
+        if (tab_int[j] == a)  {
+            i=j;
+        }
+    }
+    return i;
+}
+
+
+
+
+void Decodage(L7OF *fichdecode, char *nomfDecode, char *nomfCode) {
+    BUFFER buf_init, buf_code;
+    L7OF fichDecode;
+    int j=0, mat,i1,i2;
+    ouvrir(&fichDecode,nomfDecode,'N');
+    ouvrir(fichdecode,nomfCode,'A');
+    int key= 965214;
+    char *key2="spr";
+    i1= allocBloc(&fichDecode);
+    int i = entete(fichdecode, 1);
+    lireDir(fichdecode, i,&buf_init);
+    for (int k = 0; k < entete(fichdecode,3); ++k) {
+        if (j < b) {
+            mat = buf_init.tab[j].Matricule;
+            buf_code.tab[j].Matricule= decoderMat(key,&mat);
+            Decrypted(buf_init.tab[j].Nom,key2,buf_code.tab[j].Nom);
+            stringToLower(buf_code.tab[j].Nom);
+            buf_code.tab[j].Nom[0]= toupper(buf_code.tab[j].Nom[0]);
+            Decrypted(buf_init.tab[j].Prenom,key2,buf_code.tab[j].Prenom);
+            buf_code.tab[j].Prenom[0]= toupper(buf_code.tab[j].Prenom[0]);
+            stringToLower(buf_code.tab[j].Prenom);
+            strcpy(buf_code.tab[j].Sexe,buf_init.tab[j].Sexe);
+            strcpy(buf_code.tab[j].Dernier_Diplome,buf_init.tab[j].Dernier_Diplome);
+            strcpy(buf_code.tab[j].Grade,buf_init.tab[j].Grade);
+            buf_code.tab[j].Date_Naissance=buf_init.tab[j].Date_Naissance;
+            buf_code.tab[j].Date_Recrutement=buf_init.tab[j].Date_Recrutement;
+            strcpy(buf_code.tab[j].Groupe_Sanguin,buf_init.tab[j].Groupe_Sanguin);
+            strcpy(buf_code.tab[j].Specialite,buf_init.tab[j].Specialite);
+            strcpy(buf_code.tab[j].Etablissement_Universitaire,buf_init.tab[j].Etablissement_Universitaire);
+            strcpy(buf_code.tab[j].Wilaya,buf_init.tab[j].Wilaya);
+
+
+            j++;
+        } else {
+            i++;
+            lireDir(fichdecode,i,&buf_init);
+            i2 = allocBloc(&fichDecode);
+            buf_code.suivant=i2;
+            buf_code.NB=b;
+            ecrireDir(&fichDecode, i1,&buf_code);
+            i1=i2;
+            mat = buf_init.tab[0].Matricule;
+            buf_code.tab[0].Matricule= decoderMat(key,&mat);
+            Decrypted(buf_init.tab[0].Nom,key2,buf_code.tab[0].Nom);
+            stringToLower(buf_code.tab[0].Nom);
+            buf_code.tab[0].Nom[0]= toupper(buf_code.tab[0].Nom[0]);
+            Decrypted(buf_init.tab[0].Prenom,key2,buf_code.tab[0].Prenom);
+            stringToLower(buf_code.tab[0].Prenom);
+            buf_code.tab[0].Prenom[0]= toupper(buf_code.tab[0].Prenom[0]);
+            strcpy(buf_code.tab[0].Sexe,buf_init.tab[0].Sexe);
+            strcpy(buf_code.tab[0].Dernier_Diplome,buf_init.tab[0].Dernier_Diplome);
+            strcpy(buf_code.tab[0].Grade,buf_init.tab[0].Grade);
+            buf_code.tab[0].Date_Naissance=buf_init.tab[0].Date_Naissance;
+            buf_code.tab[0].Date_Recrutement=buf_init.tab[0].Date_Recrutement;
+            strcpy(buf_code.tab[0].Groupe_Sanguin,buf_init.tab[0].Groupe_Sanguin);
+            strcpy(buf_code.tab[0].Specialite,buf_init.tab[0].Specialite);
+            strcpy(buf_code.tab[0].Etablissement_Universitaire,buf_init.tab[0].Etablissement_Universitaire);
+            strcpy(buf_code.tab[0].Wilaya,buf_init.tab[0].Wilaya);
+
+            buf_code.NB=0;
+            j=1;
+
+        }
+    }
+    buf_code.NB=j;
+    buf_code.suivant=-1;
+    ecrireDir(&fichDecode,i1,&buf_code);
+    affEntete(&fichDecode,1,1);
+    affEntete(&fichDecode,2,i1);
+    affEntete(&fichDecode,3, entete(fichdecode,3));
+    fermer(fichdecode);
+    fermer(&fichDecode);
+}
+
+void Codage(L7OF *fichier, char *nomfCode, char *nomf) {
+    BUFFER buf_init, buf_code;
+    L7OF fichCode;
+    int j=0, mat,i1,i2;
+    ouvrir(&fichCode,nomfCode,'N');
+    ouvrir(fichier,nomf,'A');
+    int key= 965214;
+    char key2[]="spr", *string;
+    Tenreg e;
+    strcpy(key2,key2);
+    i1=allocBloc(&fichCode);
+    int i = entete(fichier, 1);
+    lireDir(fichier, i,&buf_init);
+    for (int k = 0; k < entete(fichier,3); ++k) {
+        if (j < b) {
+            mat = buf_init.tab[j].Matricule;
+             coderMat(key,&mat);
+            buf_code.tab[j].Matricule=mat;
+           Encrypted(buf_init.tab[j].Nom,key2,buf_code.tab[j].Nom);
+            Encrypted(buf_init.tab[j].Prenom,key2,buf_code.tab[j].Prenom);
+            strcpy(buf_code.tab[j].Sexe,buf_init.tab[j].Sexe);
+            strcpy(buf_code.tab[j].Dernier_Diplome,buf_init.tab[j].Dernier_Diplome);
+            strcpy(buf_code.tab[j].Grade,buf_init.tab[j].Grade);
+            buf_code.tab[j].Date_Naissance=buf_init.tab[j].Date_Naissance;
+            buf_code.tab[j].Date_Recrutement=buf_init.tab[j].Date_Recrutement;
+            strcpy(buf_code.tab[j].Groupe_Sanguin,buf_init.tab[j].Groupe_Sanguin);
+            strcpy(buf_code.tab[j].Specialite,buf_init.tab[j].Specialite);
+            strcpy(buf_code.tab[j].Etablissement_Universitaire,buf_init.tab[j].Etablissement_Universitaire);
+            strcpy(buf_code.tab[j].Wilaya,buf_init.tab[j].Wilaya);
+            j++;
+        } else {
+            i++;
+            lireDir(fichier,i,&buf_init);
+            i2 = allocBloc(&fichCode);
+            buf_code.suivant=i2;
+            buf_code.NB=b;
+            ecrireDir(&fichCode, i1,&buf_code);
+            i1=i2;
+            mat = buf_init.tab[0].Matricule;
+            coderMat(key,&mat);
+            buf_code.tab[0].Matricule=mat;
+            Encrypted(buf_init.tab[0].Nom,key2,buf_code.tab[0].Nom);
+            Encrypted(buf_init.tab[0].Prenom,key2,buf_code.tab[0].Prenom);
+            strcpy(buf_code.tab[0].Sexe,buf_init.tab[0].Sexe);
+            strcpy(buf_code.tab[0].Dernier_Diplome,buf_init.tab[0].Dernier_Diplome);
+            strcpy(buf_code.tab[0].Grade,buf_init.tab[0].Grade);
+            buf_code.tab[0].Date_Naissance=buf_init.tab[0].Date_Naissance;
+            buf_code.tab[0].Date_Recrutement=buf_init.tab[0].Date_Recrutement;
+            strcpy(buf_code.tab[0].Groupe_Sanguin,buf_init.tab[0].Groupe_Sanguin);
+            strcpy(buf_code.tab[0].Specialite,buf_init.tab[0].Specialite);
+            strcpy(buf_code.tab[0].Etablissement_Universitaire,buf_init.tab[0].Etablissement_Universitaire);
+            strcpy(buf_code.tab[0].Wilaya,buf_init.tab[0].Wilaya);
+            buf_code.NB=0;
+            j=1;
+
+        }
+    }
+    buf_code.NB=j;
+    buf_code.suivant=-1;
+    ecrireDir(&fichCode,i1,&buf_code);
+    affEntete(&fichCode,1,1);
+    affEntete(&fichCode,2,i1);
+    affEntete(&fichCode,3, entete(fichier,3));
+    fermer(fichier);
+    fermer(&fichCode);
+}
+
+
+void stringToUpper(char *Str) {
+    for (int i=0; i< strlen(Str)+1; i++) {
+        Str[i]= toupper(Str[i]);
+    }
+}
+
+void stringToLower(char *Str) {
+    for (int i=0; i< strlen(Str); i++) {
+        Str[i]= tolower(Str[i]);
+    }
+
+}
