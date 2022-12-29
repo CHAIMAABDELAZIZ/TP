@@ -1,0 +1,45 @@
+. Ecole Nationale Polytechnique.
+. Ecole nationale superieure d'hydraulique - Arbaoui Abdellah.
+. Ecole nationale superieure des travaux publics -  Francis Jeanson.
+. Ecole nationale superieure veterinaire - Rabie Bouchama.
+. Ecole Polytechnique d'architecture et d'Urbanisme-Hocine Aït Ahmed.
+. Ecole nationale superieure agronomique- Khalef Abdellah alias Kasdi Merbah.
+. Ecole des hautes etudes commerciales.
+. Ecole nationale superieure d'informatique.
+. Ecole nationale superieure en statistique et en economie appliquee.
+. Ecole Superieure de Commerce-Mouloud Kacem Naït Belkacem.
+. Ecole nationale superieure des sciences de la mer et de l'amenagement du littoral.
+. Ecole nationale superieure de management.
+. Ecole Nationale Superieure de Technologie.
+. Ecole nationale superieure de journalisme et des sciences de l'information.
+. Ecole Nationale Superieure des sciences politiques.
+. Ecole Superieure des Sciences de l'Aliment et des Industries Agroalimentaires d'Alger  ex  EP SNV.
+. Ecole Superieure des Sciences appliquees d'Alger ex EP ST Alger.
+. Ecole Superieure de Gestion et d'Economie Numerique.
+. ecole Superieure en Sciences et Technologies de l'Informatique et du Numerique de Bejaia.
+. ecole Nationale Superieure en Intelligence Artificielle.
+. ecole Nationale Superieure en Mathematique.
+. Ecole normale superieure de Bouzareah - Cheikh Mubarak Ben Mohamed Brahimi El Mili.
+. Ecole normale superieure de Kouba - Mohamed Bachir El Ibrahimi.
+. Ecole normale superieure de Laghouat - Taleb Abderrahmane.
+. Ecole normale superieure de sourds muets.
+. Universite  de Bouira - Akli Mohand Oulhadj.
+. Universite  de Djelfa - Ziane Achour.
+. Universite de Ghardaia.
+. Universite  de Khemis Miliana - Djilali Bounaama.
+. Universite  Medea - Yahia Fares.
+. Universite des sciences et de la technologie d'Alger, Houari Boumediène.
+. Universite de Bejaia - Abderrahmane Mira.
+. Universite  de Boumerdès - M'hamed Bougara.
+. Universite de Tizi Ouzou - Mouloud Maameri. 
+. Universite  de Laghouat - Amar Telidji.
+. Universite  Blida 1 - Saad Dahlab.
+. Universite de Blida 2 - Lounici Ali.
+. Universite d'Alger 1 - Benyoucef Benkhedda.
+. Universite d'Alger 2 - Abou el Kacem Saadallah.
+. Universite d'Alger 3 - Brahim Soltane Chaibout.
+. Universite de la Formation Continue.
+. Universite de Tamenghasset.
+. Centre universitaire de Tipaza - Abdallah Morsli
+. Centre Universitaire d'Illizi-Cheikh Amoud ben Mokhtar
+. Centre universitaire d'Aflou

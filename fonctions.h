@@ -28,6 +28,7 @@ void insertion_Index(caseIndexPrimaire valeur, caseIndexPrimaire *tab, int taill
 void suppTabOrd(caseIndexPrimaire *tab, int taille, int pos);
 void Modification_Ens(char *nomf, L7OF *fich, int matricule);
 void sauvIndexPr(char *nomIndex, L7OF *fichier);
+void chargerIndexPr(char *nomIndex, L7OF *fichier);
 char **fichVersTab(char nomf[], int taiMot, int nbMot, int *cpt);
 char *motPure(char *mot);
 void insererLLC(maillon  **tete, int matricule);
@@ -52,4 +53,6 @@ void Encrypted(char *code,const char *cle, char codee[]);
 void Decrypted(char *coded, char *cle, char decodee[]);
 void stringToUpper(char *Str);
 void stringToLower(char *Str);
+void sauvIndexSec( char *nomIndexSec, L7OF *fichier);
+void chargerIndexSec(char *nomIndexSec, L7OF *fichier);
 #endif //TPSFSD_FONCTIONS_H
