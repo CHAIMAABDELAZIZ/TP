@@ -723,17 +723,16 @@ void consultation_region(L7OF *fich, char *nomf) {
     }
 
 
-void sauvIndexSec( char *nomIndexSec, L7OF *fichier)
+void sauvIndexSec(int codeIndex, char *nomIndexSec, L7OF *fichier)
 {
     indexEntete buff;
     fichierIndex ifichier;
      tBlocIndexSec buf;
 
-    int max,codeIndex;
+    int max;
     caseSec *tabIndex;
     maillon *liste;
-    printf("\n%s","Choisissez un code pour l'index à sauvgarder?");
-    scanf("%d",&codeIndex);
+
     switch (codeIndex) // choisir l'index a sauvgarde selon le condeIndex
     {
         case 1:
@@ -807,7 +806,7 @@ void sauvIndexSec( char *nomIndexSec, L7OF *fichier)
     }
 }
 
-void chargerIndexSec(char *nomIndexSec, L7OF *fichier)
+void chargerIndexSec(int codeIndex, char *nomIndexSec, L7OF *fichier)
 {
 
     fichierIndex ifichier;
@@ -815,12 +814,8 @@ void chargerIndexSec(char *nomIndexSec, L7OF *fichier)
     tBlocIndexSec *buf;
     buf = malloc(sizeof(tBlocIndexSec)); //alloue un buffer dynamiquement
 
-    int indice = 0,
-     codeIndex;
+    int indice = 0;
     ifichier.f = fopen(nomIndexSec, "rb"); //ouverture en mode ancien
-
-    printf("\n%s","Choisissez un code pour l'index à charger?");
-    scanf("%d",&codeIndex);
 
     for (int v = 0; v < 111; ++v) {
         fichier->iEU[v].nbmat = 0;
@@ -871,6 +866,7 @@ void chargerIndexSec(char *nomIndexSec, L7OF *fichier)
     free(buf);
     fclose(ifichier.f);
 }
+
 
 
 void Affichage_Entete(L7OF *fichier, char *nomf) {
