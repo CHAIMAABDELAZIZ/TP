@@ -53,6 +53,6 @@ void Encrypted(char *code,const char *cle, char codee[]);
 void Decrypted(char *coded, char *cle, char decodee[]);
 void stringToUpper(char *Str);
 void stringToLower(char *Str);
-void sauvIndexSec( char *nomIndexSec, L7OF *fichier);
-void chargerIndexSec(char *nomIndexSec, L7OF *fichier);
+void sauvIndexSec(int codeIndex, char *nomIndexSec, L7OF *fichier);
+void chargerIndexSec(int codeIndex, char *nomIndexSec, L7OF *fichier);
 #endif //TPSFSD_FONCTIONS_H
