@@ -1,0 +1,60 @@
+void consultation_region(L7OF *fich, char *nomf) {
+    int i=1, mat, trouv, k,cpt;
+    maillon *P;
+    Tenreg E;
+    BUFFER buf;
+
+    while (i!=0) {
+        ouvrir(fich, nomf, 'A');
+        printf("donner la region: 01-Centre \n 02-Est \n 03-Ouest");
+        scanf(" %d", &i);
+        if (i == 1) {
+            int c = 0;
+            region_centre = fichVersTab("..\\Fichiers_System\\region-centre.txt", 97, 45, &c);
+            for (int j = 0; j < 44; ++j) {
+                int u = RechSeq(nomEU, region_centre[j]);
+                if (fich->iEU[u].nbmat != 0) {
+                    P = fich->iEU[u].info;
+                    for (int l = 0; l < fich->iEU[u].nbmat; ++l) {
+                        mat = P->matricule;
+                        printf("le mat est %d ",mat);
+                        afficher_enreg(fich, nomf, mat)  ;
+                        P = (maillon *) P->suivant;
+                    }
+                }
+            }
+        } else if (i == 2) {
+            int c = 0;
+            region_est = fichVersTab("..\\Fichiers_System\\region-est.txt", 97, 37, &c);
+            for (int j = 0; j < 36; ++j) {
+                int u = RechSeq(nomEU, region_est[j]);
+                if (fich->iEU[u].nbmat != 0) {
+                    P = fich->iEU[u].info;
+                    for (int l = 0; l < fich->iEU[u].nbmat; ++l) {
+                        mat = P->matricule;
+                        printf("le mat est %d ",mat);
+                        afficher_enreg(fich, nomf, mat)  ;
+                        P = (maillon *) P->suivant;
+                    }
+                }
+
+            }
+        }
+        else if (i==3) {
+            int c = 0;
+            region_ouest = fichVersTab("..\\Fichiers_System\\region-ouest.txt", 97, 30, &c);
+            for (int j = 0; j < 29; ++j) {
+                int u = RechSeq(nomEU, region_ouest[j]);
+                if (fich->iEU[u].nbmat != 0) {
+                    P = fich->iEU[u].info;
+                    for (int l = 0; l < fich->iEU[u].nbmat; ++l) {
+                        mat = P->matricule;
+                        afficher_enreg(fich, nomf, mat)  ;
+                        P = (maillon *) P->suivant;
+                    }
+                }
+            }
+        }
+    }
+
+}
